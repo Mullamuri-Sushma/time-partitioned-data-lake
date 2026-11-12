@@ -1,9 +1,11 @@
 # Time-Partitioned Data Lake Pipeline
 
 ## Overview
+
 A local, reproducible data lake pipeline for e-commerce order events. It ingests CSV sources, validates records, quarantines rejects, transforms valid events and publishes Snappy-compressed Parquet files partitioned by UTC event date.
 
 ## Technology
+
 - Python 3.12
 - Pandas 3.1.1
 - PyArrow 26.0.1
@@ -11,6 +13,7 @@ A local, reproducible data lake pipeline for e-commerce order events. It ingests
 - Pytest 9.2.0
 
 ## Setup (Windows PowerShell)
+
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
@@ -18,21 +21,31 @@ pip install -r requirements.txt
 ```
 
 ## Generate synthetic data
+
 ```powershell
 python -m src.data_generator --rows 1000 --seed 42
 ```
+
 The generator creates `order_events.csv`, `customers.csv` and `scenario_manifest.json`. For requested counts of at least 10, it adds one duplicate event, so the generated count is one greater than the requested count.
 
 ## Run the pipeline
+
 ```powershell
 python -m src.main
 ```
-Default inputs: `data/raw/order_events.csv` and `data/raw/customers.csv`. Outputs: `data/processed/`, `data/quarantine/` and `data/reports/`. Custom inputs:
+
+Default inputs: `data/raw/order_events.csv` and `data/raw/customers.csv`.
+
+Outputs: `data/processed/`, `data/quarantine/` and `data/reports/`.
+
+Custom inputs:
+
 ```powershell
 python -m src.main --events path/to/order_events.csv --customers path/to/customers.csv
 ```
 
 ## Pipeline stages
+
 1. Generate reproducible synthetic sources.
 2. Ingest CSV files and attach source metadata.
 3. Validate required fields, event IDs, customer references, timestamps, event types, statuses and amounts.
@@ -42,19 +55,27 @@ python -m src.main --events path/to/order_events.csv --customers path/to/custome
 7. Save metrics and reconcile record counts.
 
 ## Partitioning
+
 The partition column is `event_date`, derived from the UTC-normalized event timestamp. Late-arriving events are placed according to event time, not arrival time. Date filters can therefore prune unrelated partitions.
 
 ## Idempotency and recovery
-The publisher uses `event_id` to ignore repeated event IDs and preserve existing records. It writes to staging and uses backup/restore handling. **Limitation:** it reads the existing dataset and rewrites the combined dataset on each publish; this is logically idempotent but not append-only incremental publishing.
+
+The publisher uses `event_id` to ignore repeated event IDs and preserve existing records. It writes to a staging directory and uses backup/restore handling.
+
+**Limitation:** It reads the existing dataset and rewrites the combined dataset on each publish; this is logically idempotent but not append-only incremental publishing.
 
 ## Tests
+
 Run:
+
 ```powershell
 pytest -q
 ```
-The last reported run had 34 passing tests. Re-run before submission and update if needed.
+
+The latest recorded test run completed successfully with 34 passing tests. Run the test suite with the command above to verify the current code.
 
 ## Benchmark results
+
 Observed local synthetic-data results:
 
 | Metric | 100K | 1M |
@@ -72,15 +93,21 @@ The counts include one deliberately added duplicate. Validation was optimized fr
 
 The configured file-size target is 128 MB. All benchmark files were below that target. The implementation writes one file per date partition and does not implement general-purpose compaction across accumulated batches.
 
+For this benchmark, the total dataset is only about 30 MB, so individual daily partitions remain small. Compaction is documented as future work rather than introducing unnecessary complexity into this prototype.
+
 ## DuckDB partition pruning
+
 On the 1M dataset, a query filtering for `2025-12-02` returned one record. DuckDB reported 1 of 92 Parquet files scanned and one row scanned.
 
 ## Evidence
+
 Benchmark reports and DuckDB profiles are stored in `evidence/performance_results/`. Supporting documents are in `docs/` and AI usage notes in `ai_usage/`.
 
 ## Limitations
+
 - Local prototype using synthetic data.
 - Full combined-dataset rewrite on each publish.
 - No general-purpose file compaction.
 - No distributed processing or cloud object storage integration.
+- Input schema drift is detected through strict CSV column-name and column-order checks; automatic schema evolution is not implemented.
 - Performance depends on local hardware and workload.
