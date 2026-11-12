@@ -1,0 +1,31 @@
+{
+    "benchmark_run_id": "benchmark-1m-09d69e8b",
+    "dataset": "1,000,000 synthetic order events",
+    "input_records": 1000001,
+    "valid_records": 999995,
+    "rejected_records": 6,
+    "transformed_records": 999995,
+    "new_records_added": 999995,
+    "total_published_records": 999995,
+    "partition_count": 92,
+    "file_count": 92,
+    "total_size_bytes": 31521877,
+    "file_size_analysis": {
+        "file_count": 92,
+        "total_size_mb": 30.0616,
+        "average_size_mb": 0.3268,
+        "minimum_size_mb": 0.0067,
+        "maximum_size_mb": 0.3391,
+        "small_file_count": 92,
+        "target_file_size_mb": 128
+    },
+    "timings": {
+        "ingestion_seconds": 1.4557,
+        "validation_seconds": 3.4782,
+        "transformation_seconds": 1.1287,
+        "publishing_seconds": 4.5703,
+        "total_pipeline_seconds": 10.6329
+    },
+    "reconciliation_passed": true,
+    "output_directory": "C:\\yottaflex\\data\\benchmark_1m_processed"
+}

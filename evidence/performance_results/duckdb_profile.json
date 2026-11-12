@@ -1,0 +1,106 @@
+{
+    "io": {
+        "total_bytes_read": 7073,
+        "total_bytes_written": 0
+    },
+    "operator": [
+        {
+            "extra_info": {},
+            "intermediate_rows": 0,
+            "intermediate_size_bytes": 0,
+            "timing": 0.000014099999999999999,
+            "type": "RESULT_COLLECTOR",
+            "children": [
+                {
+                    "extra_info": {
+                        "Function": "READ_PARQUET",
+                        "Projections": "event_id",
+                        "File Filters": "(event_date = '2025-12-02'::DATE)",
+                        "Scanning Files": "1/92",
+                        "Estimated Cardinality": "1",
+                        "Total Files Read": "1",
+                        "Filename(s)": "C:/yottaflex/data/benchmark_1m_processed/event_date=2025-12-02/part-00000.parquet"
+                    },
+                    "intermediate_rows": 1,
+                    "intermediate_size_bytes": 24,
+                    "row_groups_scanned": 1,
+                    "rows_scanned": 1,
+                    "timing": 0.0002318,
+                    "total_row_groups_to_scan": 1,
+                    "type": "TABLE_SCAN"
+                }
+            ]
+        }
+    ],
+    "optimizer": {
+        "aggregate_function_rewriter": 0.0000174,
+        "aggregate_reuse": 0.0000044,
+        "build_side_probe_side": 0.000001,
+        "column_lifetime": 0.0000049,
+        "common_aggregate": 5e-7,
+        "common_subexpressions": 0.0000034,
+        "common_subplan": 0.0000306,
+        "cte_filter_pusher": 0.0000032,
+        "cte_inlining": 0.0000017,
+        "deliminator": 0.0000023,
+        "duplicate_groups": 9e-7,
+        "empty_result_pullup": 3e-7,
+        "expression_rewriter": 0.000076,
+        "filter_pullup": 0.0000058,
+        "filter_pushdown": 0.0005201,
+        "grouping_sets": 5e-7,
+        "in_clause": 5e-7,
+        "join_elimination": 0.0000027,
+        "join_filter_pushdown": 3e-7,
+        "join_order": 0.0000975,
+        "late_materialization": 8e-7,
+        "limit_pushdown": 3e-7,
+        "outer_join_simplification": 0.0000054,
+        "partial_aggregate_pushdown": 0.0000116,
+        "partitioned_execution": 4e-7,
+        "projection_placement": 0.0000087,
+        "projection_pullup": 0.0000047,
+        "redundant_order_keys": 0.000002,
+        "regex_range": 3e-7,
+        "reorder_filter": 3e-7,
+        "row_group_pruner": 6e-7,
+        "row_number_rewriter": 0.0000014,
+        "sampling_pushdown": 4e-7,
+        "scalar_fn_pushdown": 9e-7,
+        "statistics_propagation": 0.0000125,
+        "top_n": 3e-7,
+        "top_n_window_elimination": 0.0000029,
+        "total_time": 0.0009272,
+        "type_pushdown": 0.0000028,
+        "unnest_rewriter": 0.000002,
+        "unused_columns": 0.0000157,
+        "window_self_join": 0.0000032
+    },
+    "physical_planner": {
+        "column_binding": 0.0000013,
+        "create_plan": 0.0000118,
+        "resolve_types": 2e-7,
+        "total_time": 0.0000203
+    },
+    "planner": {
+        "binding_time": 0.0186607,
+        "total_time": 0.0187673
+    },
+    "query": {
+        "cpu_time": 0.0002459,
+        "sql": "SELECT event_id\n        FROM read_parquet(\n            'C:/yottaflex/data/benchmark_1m_processed/*/*.parquet',\n            hive_partitioning=true\n        )\n        WHERE event_date = DATE '2025-12-02'\n    ",
+        "total_intermediate_rows": 1,
+        "total_intermediate_size_bytes": 24,
+        "total_row_groups_scanned": 1,
+        "total_row_groups_to_scan": 1,
+        "total_rows_scanned": 1,
+        "total_time": 0.020438
+    },
+    "system": {
+        "blocked_thread_time": 0.0004,
+        "peak_buffer_memory": 65536,
+        "peak_streaming_buffer_size": 16,
+        "peak_temp_dir_size": 0,
+        "total_memory_allocated": 0
+    }
+}
