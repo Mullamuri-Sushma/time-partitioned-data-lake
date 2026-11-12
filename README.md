@@ -72,7 +72,7 @@ Run:
 python -m pytest -q
 ```
 
-The latest recorded test run completed successfully with 34 passing tests. Run the test suite with the command above to verify the current code.
+The latest recorded test run completed successfully with 35 passing tests in 2.32 seconds. Run the test suite with the command above to verify the current code.
 
 ## Benchmark results
 
