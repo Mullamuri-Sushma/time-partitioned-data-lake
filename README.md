@@ -52,7 +52,7 @@ Run:
 ```powershell
 pytest -q
 ```
-The last reported run had 19 passing tests. Re-run before submission and update if needed.
+The last reported run had 34 passing tests. Re-run before submission and update if needed.
 
 ## Benchmark results
 Observed local synthetic-data results:
