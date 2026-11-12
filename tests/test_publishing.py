@@ -271,3 +271,40 @@ def test_empty_incremental_batch_preserves_existing_data(tmp_path):
     assert stats["rows_published"] == 1
     assert len(result) == 1
     assert result.iloc[0]["event_id"] == "EVT001"
+
+
+def test_publish_succeeds_after_retry(tmp_path, monkeypatch):
+    output_dir = tmp_path / "processed"
+    events = make_events()
+
+    original_to_parquet = pd.DataFrame.to_parquet
+    attempts = {"count": 0}
+
+    def fail_once(self, *args, **kwargs):
+        attempts["count"] += 1
+
+        if attempts["count"] == 1:
+            raise OSError("Temporary write failure")
+
+        return original_to_parquet(self, *args, **kwargs)
+
+    monkeypatch.setattr(
+        pd.DataFrame,
+        "to_parquet",
+        fail_once,
+    )
+
+    with pytest.raises(
+        OSError,
+        match="Temporary write failure",
+    ):
+        publish_parquet(events, output_dir)
+
+    stats = publish_parquet(events, output_dir)
+
+    result = read_published_events(output_dir)
+
+    assert stats["rows_published"] == 1
+    assert len(result) == 1
+    assert result.iloc[0]["event_id"] == "EVT001"
+    assert attempts["count"] >= 2
