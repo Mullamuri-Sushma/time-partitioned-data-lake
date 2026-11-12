@@ -28,13 +28,13 @@ The latest reported test run completed successfully with 34 passing tests.
 
 Benchmark results:
 
-\- 100K benchmark: 99,995 valid records published.
+- 100K benchmark: 99,995 valid records published.
 
-\- 1M benchmark: 999,995 valid records published.
+- 1M benchmark: 999,995 valid records published.
 
-\- Both benchmarks passed reconciliation.
+- Both benchmarks passed reconciliation.
 
-\- DuckDB scanned 1 of 92 Parquet files for the tested date-filtered query.
+- DuckDB scanned 1 of 92 Parquet files for the tested date-filtered query.
 
 ## Responsibility
 

@@ -69,7 +69,7 @@ The publisher uses `event_id` to ignore repeated event IDs and preserve existing
 Run:
 
 ```powershell
-pytest -q
+python -m pytest -q
 ```
 
 The latest recorded test run completed successfully with 34 passing tests. Run the test suite with the command above to verify the current code.

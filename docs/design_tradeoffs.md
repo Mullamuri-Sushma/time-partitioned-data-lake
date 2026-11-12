@@ -1,7 +1,7 @@
 # Design Decisions and Trade-offs
 
 ## Architecture
-The pipeline is a modular sequence: synthetic CSV sources → ingestion → validation → valid/rejected split → transformation → date partitioning → Parquet publishing → metrics and reconciliation. Each stage is separated into a Python module.
+The pipeline is a modular sequence: synthetic CSV sources -> ingestion -> validation -> valid/rejected split -> transformation -> date partitioning -> Parquet publishing -> metrics and reconciliation. Each stage is separated into a Python module.
 
 ## Data model
 The `order_events` grain is one row per order event. `event_id` identifies an event; `order_id` can repeat because an order can have multiple lifecycle events. `customers.csv` supplies customer reference IDs.
